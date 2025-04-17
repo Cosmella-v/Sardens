@@ -92,6 +92,26 @@ namespace NoEnimies.Engine
       
         }
 
+        public static int CountMatchingPrefix(string str1, string str2)
+        {
+            int matchCount = 0;
+            int length = Math.Min(str1.Length, str2.Length);
+
+            for (int i = 0; i < length; i++)
+            {
+                if (str1[i] == str2[i])
+                {
+                    matchCount++;
+                }
+                else
+                {
+                    break; 
+                }
+            }
+
+            return matchCount;
+        }
+
 
         private static bool Hider(string[] args)
         {
@@ -99,6 +119,7 @@ namespace NoEnimies.Engine
             {
                 var person = args[0];
                 int closestDistance = 1000000;
+                int closeslet = 0;
                 PlayerAvatar closestPlayer = GameDirector.instance.PlayerList[0];
                 if (KillthemAll.Plugin.Hiders.Count > 0) { KillthemAll.Plugin.Hiders.Clear(); }
                 if (GameDirector.instance == null)
@@ -107,18 +128,21 @@ namespace NoEnimies.Engine
                 }
                 foreach (PlayerAvatar playerAvatar in GameDirector.instance.PlayerList)
                 {
-                    int distance = LevenshteinDistance(SemiFunc.PlayerGetName(playerAvatar).ToLower(), person.ToLower());
-                    KillthemAll.Plugin.mls.LogInfo(distance);
-                    if (distance < closestDistance)
+                    string Nam = SemiFunc.PlayerGetName(playerAvatar).ToLower();
+                    int dise = CountMatchingPrefix(Nam, person.ToLower());
+                    int distance = LevenshteinDistance(Nam, person.ToLower());
+                    //KillthemAll.Plugin.mls.LogInfo(dise+"dis: "+distance);
+                    if ((closeslet < dise) || ((closeslet == dise) && (distance < closestDistance) ))
                     {
                         closestDistance = distance;
+                        closeslet = dise;
                         closestPlayer = playerAvatar;
                     }
                 }
                 if (closestPlayer)
                 {
                     KillthemAll.Plugin.Hiders.Add(closestPlayer);
-                    KillthemAll.Plugin.mls.LogInfo($"Setting Hider to {SemiFunc.PlayerGetName(closestPlayer)}!");
+                   // KillthemAll.Plugin.mls.LogInfo($"Setting Hider to {SemiFunc.PlayerGetName(closestPlayer)}!");
                     KillthemAll.Plugin.updateListMaps();
                 } else
                 {

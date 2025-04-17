@@ -21,9 +21,8 @@ namespace NoEnimies.Lib
             protected override void Update()
             {
                 base.Update();
-                this.uiText.enabled = !SemiFunc.MenuLevel();
+                this.uiText.gameObject.SetActive(!SemiFunc.MenuLevel());
             }
-
 
             }
 

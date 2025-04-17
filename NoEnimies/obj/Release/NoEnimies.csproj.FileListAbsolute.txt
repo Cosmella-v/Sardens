@@ -111,3 +111,10 @@ C:\Users\momo2\Downloads\Plugin\NoEnimies\bin\Release\UnityEngine.RuntimeInitial
 C:\Users\momo2\Downloads\Plugin\NoEnimies\bin\Release\UnityEngine.SubstanceModule.dll
 C:\Users\momo2\Downloads\Plugin\NoEnimies\bin\Release\UnityEngine.UmbraModule.dll
 C:\Users\momo2\Downloads\Plugin\NoEnimies\bin\Release\UnityEngine.UnityTestProtocolModule.dll
+C:\Users\helen\Downloads\Sardens\Sardens\NoEnimies\bin\Release\NoEnimies.dll
+C:\Users\helen\Downloads\Sardens\Sardens\NoEnimies\bin\Release\NoEnimies.pdb
+C:\Users\helen\Downloads\Sardens\Sardens\NoEnimies\obj\Release\NoEnimies.csproj.AssemblyReference.cache
+C:\Users\helen\Downloads\Sardens\Sardens\NoEnimies\obj\Release\NoEnimies.csproj.CoreCompileInputs.cache
+C:\Users\helen\Downloads\Sardens\Sardens\NoEnimies\obj\Release\NoEnimies.csproj.Up2Date
+C:\Users\helen\Downloads\Sardens\Sardens\NoEnimies\obj\Release\NoEnimies.dll
+C:\Users\helen\Downloads\Sardens\Sardens\NoEnimies\obj\Release\NoEnimies.pdb

@@ -17,6 +17,12 @@ namespace NoEnimies.Lib
             return SemiFunc.IsMasterClientOrSingleplayer();
         }
 
+        static public bool CanMaster()
+        {
+            return Multplayer() && SemiFunc.IsMasterClientOrSingleplayer();
+        }
+
+
         static public bool Multplayer()
         {
             return GameManager.instance.gameMode == 1;
@@ -45,6 +51,9 @@ namespace NoEnimies.Lib
             var InGameLabelIsh = new GameObject("CustomLabel", typeof(RectTransform));
             var rect = InGameLabelIsh.GetComponent<RectTransform>();
             rect.sizeDelta = new Vector2(600f, 100f);
+            rect.anchorMin = new Vector2(0, 0.5f);
+            rect.anchorMax = new Vector2(0, 0.5f);
+            rect.pivot = new Vector2(0, 0.5f);
             rect.anchoredPosition = Vector2.zero;
 
             var tmp = InGameLabelIsh.AddComponent<TextMeshProUGUI>();
@@ -55,7 +64,7 @@ namespace NoEnimies.Lib
             tmp.fontSizeMax = 24;
             tmp.fontSizeMin = 10;
             tmp.color = Color.white;
-            tmp.alignment = TextAlignmentOptions.Center;
+            tmp.alignment = TextAlignmentOptions.Left;
             InGameLabelIsh.AddComponent<SemiUiPatch.PatchedSemiFun>();
 
             return InGameLabelIsh;

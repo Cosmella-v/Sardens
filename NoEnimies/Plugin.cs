@@ -28,6 +28,7 @@ namespace KillthemAll
 
         public static void updateListMaps()
         {
+            NoEnimies.Engine.Display.HudPatch.NameHolder.GetComponent<KillthemAll.Clients>().SendList();
             foreach (PlayerAvatar playerAvatar in GameDirector.instance.PlayerList)
             {
                 StatsManager.instance.playerUpgradeMapPlayerCount[SemiFunc.PlayerGetSteamID(playerAvatar)] = Hiders.Count;
@@ -39,7 +40,6 @@ namespace KillthemAll
         {
             mls = BepInEx.Logging.Logger.CreateLogSource(modGUID);
             mls.LogInfo($"{modGUID} is now awake!");
-
             harmony.PatchAll();
         }
 
