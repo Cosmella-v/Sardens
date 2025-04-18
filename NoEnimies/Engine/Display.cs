@@ -18,7 +18,6 @@ namespace NoEnimies.Engine
         public class HudPatch
         {
             static public GameObject NameHolder;
-            static public int registerdid;
             [HarmonyPatch("Awake")]
             [HarmonyPostfix]
             public static void Awake(HUDCanvas __instance)
@@ -35,15 +34,7 @@ namespace NoEnimies.Engine
             {
                 __instance.AddComponent<KillthemAll.Clients>();
             }
-            private static IEnumerator WaitForViewID(PhotonView view)
-            {
-                object id;
-                while (!PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("NameHolderViewID", out id))
-                {
-                    yield return null; 
-                }
-                view.ViewID = (int)id;
-            }
+            
 
         }
     }

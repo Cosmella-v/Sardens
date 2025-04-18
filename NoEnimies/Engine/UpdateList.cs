@@ -13,6 +13,15 @@ namespace NoEnimies.Engine
     {
         public class ListUpdater : MonoBehaviour {
             GameObject Updator;
+            GameObject PlayerList;
+            class PlayerUIData
+            {
+                public GameObject LabelObject;
+                public string LastName;
+                public bool WasHider;
+            }
+            private Dictionary<PlayerAvatar, PlayerUIData> playerUIDict = new Dictionary<PlayerAvatar, PlayerUIData>();
+
             int Usernames;
             int Sardens;
             private void Start()
@@ -57,33 +66,93 @@ namespace NoEnimies.Engine
                 }
             }
 
+            private void RefreshList()
+            {
+                if (!PlayerList)
+                {
+                    PlayerList = Lib.Dependant.CustomLabel();
+                    PlayerList.name = "Ui-Names";
+                    PlayerList.GetComponent<TextMeshProUGUI>().text = "        Player List     ";
+                    PlayerList.transform.SetParent(Updator.transform, false);
+                }
+
+                var currentPlayers = GameDirector.instance.PlayerList;
+                var currentHiders = KillthemAll.Plugin.Hiders;
+
+                var toRemove = new List<PlayerAvatar>();
+                foreach (var entry in playerUIDict)
+                {
+                    if (!currentPlayers.Contains(entry.Key))
+                    {
+                        Destroy(entry.Value.LabelObject);
+                        toRemove.Add(entry.Key);
+                    }
+                }
+                foreach (var player in toRemove)
+                {
+                    playerUIDict.Remove(player);
+                }
+
+                int displayIndex = 1;
+                foreach (var player in currentPlayers)
+                {
+                    string newName = SemiFunc.PlayerGetName(player);
+                    bool isHider = currentHiders.Contains(player);
+
+                    if (!playerUIDict.TryGetValue(player, out PlayerUIData uiData))
+                    {
+                        var labelObj = Lib.Dependant.CustomLabel();
+                        labelObj.name = SemiFunc.PlayerGetSteamID(player);
+                        labelObj.transform.SetParent(Updator.transform, false);
+                        labelObj.transform.localScale = Vector3.one;
+
+                        uiData = new PlayerUIData
+                        {
+                            LabelObject = labelObj,
+                            LastName = newName,
+                            WasHider = isHider
+                        };
+
+                        playerUIDict[player] = uiData;
+
+                        labelObj.GetComponent<TextMeshProUGUI>().text = newName;
+                        AddEmbeddedImageTo(labelObj.transform, isHider);
+                    }
+                    else
+                    {
+                        var label = uiData.LabelObject.GetComponent<TextMeshProUGUI>();
+
+                        if (uiData.LastName != newName)
+                        {
+                            label.text = newName;
+                            uiData.LastName = newName;
+                        }
+
+                        if (uiData.WasHider != isHider)
+                        {
+                            foreach (Transform child in uiData.LabelObject.transform)
+                            {
+                                if (child.name == "FishImage")
+                                {
+                                    Destroy(child.gameObject);
+                                }
+                            }
+                            AddEmbeddedImageTo(uiData.LabelObject.transform, isHider);
+                            uiData.WasHider = isHider;
+                        }
+                    }
+
+                    uiData.LabelObject.transform.localPosition = new Vector3(0, displayIndex * -28, 0);
+                    displayIndex++;
+                }
+
+                Usernames = currentPlayers.Count;
+                Sardens = currentHiders.Count;
+            }
             public void Update()
             {
                 if (Usernames == GameDirector.instance.PlayerList.Count && Sardens == KillthemAll.Plugin.Hiders.Count) { return; };
-                foreach (Transform child in Updator.transform)
-                {
-                    Destroy(child.gameObject);
-                }
-                Usernames = GameDirector.instance.PlayerList.Count;
-                Sardens = KillthemAll.Plugin.Hiders.Count;
-                var DisplayPlr = 1;
-
-                var uin = Lib.Dependant.CustomLabel();
-                uin.name = "Ui-Names";
-                uin.GetComponent<TextMeshProUGUI>().text = "        Player List     ";
-                uin.transform.SetParent(Updator.transform, false);
-
-                foreach (PlayerAvatar playerAvatar in GameDirector.instance.PlayerList)
-                {
-                    var Label = Lib.Dependant.CustomLabel();
-                    Label.name = SemiFunc.PlayerGetSteamID(playerAvatar);
-                    Label.GetComponent<TextMeshProUGUI>().text = SemiFunc.PlayerGetName(playerAvatar);
-                    Label.transform.SetParent(Updator.transform, false);
-                    Label.transform.localPosition = new UnityEngine.Vector3(0, DisplayPlr * -28, 0);
-                    AddEmbeddedImageTo(Label.transform, KillthemAll.Plugin.Hiders.Contains(playerAvatar));
-                    DisplayPlr += 1;
-                }
-
+                RefreshList();
             }
 
             }
