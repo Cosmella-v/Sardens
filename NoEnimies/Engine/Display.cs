@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Photon.Pun;
+using ExitGames.Client.Photon;
+using System.Collections;
 
 namespace NoEnimies.Engine
 {
@@ -15,7 +17,7 @@ namespace NoEnimies.Engine
         public class HudPatch
         {
             static public GameObject NameHolder;
-
+            static public int registerdid;
             [HarmonyPatch("Awake")]
             [HarmonyPostfix]
             public static void Awake(HUDCanvas __instance)
@@ -25,9 +27,31 @@ namespace NoEnimies.Engine
                 NameHolder.transform.position = new UnityEngine.Vector3(45f, 270, 0);
                 NameHolder.transform.localScale = new UnityEngine.Vector3(0.5f, 0.5f, 0.5f);
                 PhotonView view = NameHolder.AddComponent<PhotonView>();
-                view.ViewID = PhotonNetwork.AllocateViewID(false);
+               
+                if (!Lib.Dependant.IsHost())
+                {
+                    __instance.StartCoroutine(WaitForViewID(view));
+                }
+                else
+                {
+                    registerdid = PhotonNetwork.AllocateViewID(true);
+                    view.ViewID = registerdid;
+                    PhotonNetwork.RegisterPhotonView(view);
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "NameHolderViewID", registerdid } });
+                }
+
                 NameHolder.AddComponent<KillthemAll.Clients>();
             }
+            private static IEnumerator WaitForViewID(PhotonView view)
+            {
+                object id;
+                while (!PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("NameHolderViewID", out id))
+                {
+                    yield return null; 
+                }
+                view.ViewID = (int)id;
+            }
+
         }
     }
 }

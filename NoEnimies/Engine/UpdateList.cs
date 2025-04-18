@@ -81,6 +81,7 @@ namespace NoEnimies.Engine
                     Label.transform.SetParent(Updator.transform, false);
                     Label.transform.localPosition = new UnityEngine.Vector3(0, DisplayPlr * -28, 0);
                     AddEmbeddedImageTo(Label.transform, KillthemAll.Plugin.Hiders.Contains(playerAvatar));
+                    DisplayPlr += 1;
                 }
 
             }
