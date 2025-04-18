@@ -37,7 +37,7 @@ namespace KillthemAll
 
             string[] dataArray = dataList.ToArray();
             PhotonView photonView = PhotonView.Get(this);
-            photonView.RPC("Viper_Sardiens_SendHidersToModdedClients", RpcTarget.OthersBuffered, new object[] { dataArray });
+            photonView.RPC("Viper_Sardiens_SendHidersToModdedClients", RpcTarget.Others, new object[] { dataArray });
         }
 
     }

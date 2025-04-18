@@ -28,7 +28,7 @@ namespace KillthemAll
 
         public static void updateListMaps()
         {
-            NoEnimies.Engine.Display.HudPatch.NameHolder.GetComponent<KillthemAll.Clients>().SendList();
+            SemiFunc.PlayerAvatarLocal().GetComponent<KillthemAll.Clients>().SendList();
             foreach (PlayerAvatar playerAvatar in GameDirector.instance.PlayerList)
             {
                 StatsManager.instance.playerUpgradeMapPlayerCount[SemiFunc.PlayerGetSteamID(playerAvatar)] = Hiders.Count;
