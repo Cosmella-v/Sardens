@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static RunManager;
 
 namespace KillthemAll
@@ -43,6 +44,18 @@ namespace KillthemAll
             harmony.PatchAll();
         }
 
+        static bool Checksomeahhrayforcastingjustincasesomeonecalledjujucompains_about_gettingHitthroughthewall(PlayerAvatarCollision __instance, Collider hit)
+        {
+
+            Vector3 direction = (hit.transform.position - __instance.transform.position).normalized;
+            float distance = Vector3.Distance(__instance.transform.position, hit.transform.position);
+            if (Physics.Raycast(__instance.transform.position, direction, out RaycastHit rayHit, distance))
+                {
+                return (rayHit.collider == hit);
+                }
+            return false;
+        }
+
         [HarmonyPatch(typeof(PlayerAvatarCollision))]
         [HarmonyPatch("Update", MethodType.Normal)]
         public static class PlayerAvatarCollision_Update_Patch
@@ -56,7 +69,7 @@ namespace KillthemAll
 
                     foreach (Collider hitCollider in hitColliders)
                     {
-
+                        if (!Checksomeahhrayforcastingjustincasesomeonecalledjujucompains_about_gettingHitthroughthewall(__instance, hitCollider)) { return true; };
                         var Col = hitCollider.gameObject.transform.parent.gameObject.GetComponent<PlayerAvatarCollision>();
                         if (Col) {
                             if (!KillthemAll.Plugin.Hiders.Contains(Col.PlayerAvatar))
@@ -67,6 +80,11 @@ namespace KillthemAll
                             }
                         }
                     }
+                } else
+                {
+                    // if they are seeking a player lol
+                    if  (KillthemAll.Plugin.Hiders.Count < 1) { return true; };
+                    __instance.PlayerAvatar.playerHealth.EyeMaterialOverride(PlayerHealth.EyeOverrideState.Red, 0.3f, 10);
                 }
 
                 return true;

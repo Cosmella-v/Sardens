@@ -399,6 +399,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\AutoRespawn.cs" />
     <Compile Include="Engine\ClientView.cs" />
     <Compile Include="Engine\Commands.cs" />
     <Compile Include="Engine\Display.cs" />

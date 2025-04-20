@@ -16,16 +16,13 @@ namespace NoEnimies.Lib
         {
             return SemiFunc.IsMasterClientOrSingleplayer();
         }
-
         static public bool CanMaster()
         {
-            return Multplayer() && SemiFunc.IsMasterClientOrSingleplayer();
+            return Multplayer() && SemiFunc.IsMasterClient();
         }
-
-
         static public bool Multplayer()
         {
-            return GameManager.instance.gameMode == 1;
+            return SemiFunc.IsMultiplayer();
         }
         static public TMP_FontAsset tekoFontAsset = null;
         static private TMP_FontAsset GetFontAsset()

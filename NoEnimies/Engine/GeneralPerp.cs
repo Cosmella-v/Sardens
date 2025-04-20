@@ -6,34 +6,12 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.InputRemoting;
 
 
 namespace NoEnimies.Engine
 {
-        class Chat
-        {
-            public static IEnumerator Say(string _message)
-            {
-                yield return new WaitForSeconds(2);
-                var tranverse = Traverse.Create(PlayerAvatar.instance);
-                bool flag = tranverse.Field("isCrouching").GetValue<bool>();
-                if (!SemiFunc.IsMultiplayer())
-                {
-                    tranverse.Method("ChatMessageSpeak", _message, flag);
-                    yield break;
-                }
-                if (tranverse.Field("isDisabled").GetValue<bool>())
-                {
-                    flag = true;
-                }
-                tranverse.Field("photonView").GetValue<Photon.Pun.PhotonView>().RPC("ChatMessageSendRPC", RpcTarget.All, new object[]
-                {
-                    _message,
-                    flag
-                });
-                yield break;
-        }
-        }
+        
         [HarmonyPatch(typeof(ChatManager))]
         class ChatControl
         {

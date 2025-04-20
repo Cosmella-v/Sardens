@@ -11,24 +11,29 @@ using static UnityEngine.Rendering.PostProcessing.PostProcessResources;
 
 namespace NoEnimies.Engine
 {
-   
-    [HarmonyPatch(typeof(SemiFunc))]
-    [HarmonyPatch("Command")]
-    public class Commands : MonoBehaviour
+    internal class CommandBuilder
     {
-        private static readonly Dictionary<string, Func<string[], bool>> commandTable =
+        private static readonly Dictionary<string, Func<string[], bool>> commandTable_host =
             new Dictionary<string, Func<string[], bool>>(StringComparer.OrdinalIgnoreCase)
             {
                 { "/hider", Hider },
                 { "/h", Hider },
+                { "/rh", NoHider },
+                { "/removehider", NoHider },
             };
+        private static readonly Dictionary<string, Func<string[], bool>> commandTable_client =
+           new Dictionary<string, Func<string[], bool>>(StringComparer.OrdinalIgnoreCase)
+           {
+                
+               
+           };
         public static int LevenshteinDistance(string a, string b)
         {
             if (a == null || b == null) return int.MaxValue;
 
             int n = a.Length, m = b.Length;
-            if (n == 0) return m;  
-            if (m == 0) return n;  
+            if (n == 0) return m;
+            if (m == 0) return n;
 
             int[] d = new int[m + 1];
             for (int j = 0; j <= m; d[j] = j++) ;
@@ -49,48 +54,36 @@ namespace NoEnimies.Engine
             return d[m];
         }
 
-
-        [HarmonyPostfix]
-        public static void Additional_Command(string _command)
+        public static bool process_Commands(string _command, bool fromhost)
         {
-                if (!Lib.Dependant.IsHost()) return;
+            if (!Lib.Dependant.IsHost()) return true;
 
-                string[] input = _command.Trim().Split(' ');
-                string command = input[0].ToLower();
+            string[] input = _command.Trim().Split(' ');
+            string command = input[0].ToLower();
 
-                string[] args;
-                if (input.Length >= 2)
-                {
-                    args = new string[input.Length - 1];
-                    Array.Copy(input, 1, args, 0, input.Length - 1);
-                }
-                else
-                {
-                    args = new string[0];
-                }
+            string[] args;
+            if (input.Length >= 2)
+            {
+                args = new string[input.Length - 1];
+                Array.Copy(input, 1, args, 0, input.Length - 1);
+            }
+            else
+            {
+                args = new string[0];
+            }
 
+            var Tablesomething = fromhost ? commandTable_host : commandTable_client;
+            if (Tablesomething.ContainsKey(command))
+            {
+                var result = Tablesomething[command](args);
 
-                if (commandTable.ContainsKey(command))
-                {
-                     var result = commandTable[command](args);
-                     if (result)
-                        {
+                return false;
+            }
+            return true;
 
-                            Chat.Say($"{command} with {args} success");
-                            ChatUI.instance.SemiUITextFlashColor(Color.magenta, 0.2f);
-                            ChatUI.instance.SemiUISpringShakeY(2f, 5f, 0.2f);
-                            MenuManager.instance.MenuEffectClick(MenuManager.MenuClickEffectType.Tick, null, 1f, 0.2f, true);
-                        } 
-                    else
-                        {
-                            Chat.Say($"{command} with {args} failed");
-                            ChatUI.instance.SemiUITextFlashColor(Color.red, 0.2f);
-                            ChatUI.instance.SemiUISpringShakeY(2f, 5f, 0.2f);
-                            MenuManager.instance.MenuEffectClick(MenuManager.MenuClickEffectType.Deny, null, 1f, 0.2f, true);
-                        }
-                }
-      
         }
+
+
 
         public static int CountMatchingPrefix(string str1, string str2)
         {
@@ -105,14 +98,19 @@ namespace NoEnimies.Engine
                 }
                 else
                 {
-                    break; 
+                    break;
                 }
             }
 
             return matchCount;
         }
 
-
+        private static bool NoHider(string[] args)
+        {
+            KillthemAll.Plugin.Hiders.Clear();
+            KillthemAll.Plugin.updateListMaps();
+            return true;
+        }
         private static bool Hider(string[] args)
         {
             try
@@ -132,7 +130,7 @@ namespace NoEnimies.Engine
                     int dise = CountMatchingPrefix(Nam, person.ToLower());
                     int distance = LevenshteinDistance(Nam, person.ToLower());
                     //KillthemAll.Plugin.mls.LogInfo(dise+"dis: "+distance);
-                    if ((closeslet < dise) || ((closeslet == dise) && (distance < closestDistance) ))
+                    if ((closeslet < dise) || ((closeslet == dise) && (distance < closestDistance)))
                     {
                         closestDistance = distance;
                         closeslet = dise;
@@ -142,19 +140,19 @@ namespace NoEnimies.Engine
                 if (closestPlayer)
                 {
                     KillthemAll.Plugin.Hiders.Add(closestPlayer);
-                   // KillthemAll.Plugin.mls.LogInfo($"Setting Hider to {SemiFunc.PlayerGetName(closestPlayer)}!");
+                    // KillthemAll.Plugin.mls.LogInfo($"Setting Hider to {SemiFunc.PlayerGetName(closestPlayer)}!");
                     KillthemAll.Plugin.updateListMaps();
-                } else
+                }
+                else
                 {
                     return false;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 KillthemAll.Plugin.mls.LogError(e.Message);
             };
             return true;
         }
-
     }
 }

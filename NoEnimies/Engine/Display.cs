@@ -32,9 +32,24 @@ namespace NoEnimies.Engine
             [HarmonyPostfix]
             public static void PlayerAvatarAwake(PlayerAvatar __instance)
             {
-                __instance.AddComponent<KillthemAll.Clients>();
+                var killtheallplease = __instance.AddComponent<KillthemAll.Clients>();
+                // this syncs when a player joins to help stop desync when joining midmatch
+                if (__instance.photonView.IsMine)
+                {
+                    KillthemAll.Plugin.mls.LogMessage("I should sync now lol");
+                    killtheallplease.PleaseSyncMeWithTheHost();
+                }
+
+                }
+            [HarmonyPatch(typeof(PlayerAvatar))]
+            [HarmonyPatch("ChatMessageSend")]
+            [HarmonyPrefix]
+            public static bool Hostcommands(PlayerAvatar __instance, string _message, bool _debugMessage)
+            {
+                if (_debugMessage) return true; // dunno why you would try sending a command as a test message????
+                return CommandBuilder.process_Commands(_message, __instance.photonView.IsMine); // crazy one liner
             }
-            
+
 
         }
     }
