@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace NoEnimies.Engine
+namespace Sardens.Engine
 {
     internal class Names
     {
@@ -32,16 +32,16 @@ namespace NoEnimies.Engine
             private void AddEmbeddedImageTo(Transform parent, bool packed)
             {
                 Assembly assembly = Assembly.GetExecutingAssembly();
-                string resourceName = "NoEnimies.Resources.fish.png";
+                string resourceName = "Sardens.Resources.fish.png";
                 if (packed)
                 {
-                    resourceName = "NoEnimies.Resources.Packedfish.png";
+                    resourceName = "Sardens.Resources.Packedfish.png";
                 }
                 using (Stream stream = assembly.GetManifestResourceStream(resourceName))
                 {
                     if (stream == null)
                     {
-                        KillthemAll.Plugin.mls.LogError("[Texture Error, UH OH] not found texture: " + resourceName);
+                        FishSardens.Plugin.mls.LogError("[Texture Error, UH OH] not found texture: " + resourceName);
                         return;
                     }
 
@@ -77,7 +77,7 @@ namespace NoEnimies.Engine
                 }
 
                 var currentPlayers = GameDirector.instance.PlayerList;
-                var currentHiders = KillthemAll.Plugin.Hiders;
+                var currentHiders = FishSardens.Plugin.Hiders;
 
                 var toRemove = new List<PlayerAvatar>();
                 foreach (var entry in playerUIDict)
@@ -151,7 +151,7 @@ namespace NoEnimies.Engine
             }
             public void Update()
             {
-                if (Usernames == GameDirector.instance.PlayerList.Count && Sardens == KillthemAll.Plugin.Hiders.Count) { return; };
+                if (Usernames == GameDirector.instance.PlayerList.Count && Sardens == FishSardens.Plugin.Hiders.Count) { return; };
                 RefreshList();
             }
 

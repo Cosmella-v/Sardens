@@ -1,7 +1,7 @@
 using Photon.Pun;
 using System;
 using System.Collections.Generic;
-namespace KillthemAll
+namespace FishSardens
 {
     internal class Clients : MonoBehaviourPun
     {
@@ -18,15 +18,15 @@ namespace KillthemAll
                 }
                 
             }
-            KillthemAll.Plugin.Hiders = Ls;
-            KillthemAll.Plugin.mls.LogInfo($"Viper_Sardiens_SendHidersToModdedClients is now syncing!");
+            FishSardens.Plugin.Hiders = Ls;
+            //FishSardens.Plugin.mls.LogInfo($"Viper_Sardiens_SendHidersToModdedClients is now syncing!");
         }
         [PunRPC]
         void Viper_Sardiens_ChildrenGamesSync_OnJoin(object data, PhotonMessageInfo info)
         {
-            if (!NoEnimies.Lib.Dependant.CanMaster()) return;
+            if (!Sardens.Lib.Dependant.CanMaster()) return;
             List<string> dataList = new List<string>();
-            foreach (PlayerAvatar playerAvatar in KillthemAll.Plugin.Hiders)
+            foreach (PlayerAvatar playerAvatar in FishSardens.Plugin.Hiders)
             {
                 string steamID = SemiFunc.PlayerGetSteamID(playerAvatar);
                 if (!string.IsNullOrEmpty(steamID))
@@ -44,14 +44,14 @@ namespace KillthemAll
 
         public void PleaseSyncMeWithTheHost()
         {
-            if (NoEnimies.Lib.Dependant.IsHost()) return;
+            if (Sardens.Lib.Dependant.IsHost()) return;
             photonView.RPC("Viper_Sardiens_ChildrenGamesSync_OnJoin", RpcTarget.MasterClient, new object[] {});
         }
         public void SendList()
         {
-            if (!NoEnimies.Lib.Dependant.CanMaster()) return;
+            if (!Sardens.Lib.Dependant.CanMaster()) return;
             List<string> dataList = new List<string>();
-            foreach (PlayerAvatar playerAvatar in KillthemAll.Plugin.Hiders)
+            foreach (PlayerAvatar playerAvatar in FishSardens.Plugin.Hiders)
             {
                 string steamID = SemiFunc.PlayerGetSteamID(playerAvatar);
                 if (!string.IsNullOrEmpty(steamID)) 

@@ -7,8 +7,8 @@
     <ProjectGuid>{C9F03CF2-95D3-45B6-AC47-572EC5B44E7B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NoEnimies</RootNamespace>
-    <AssemblyName>NoEnimies</AssemblyName>
+    <RootNamespace>Sardens</RootNamespace>
+    <AssemblyName>Sardens</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -21,59 +21,64 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Build\$(Configuration)</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\Build\$(Configuration)</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <Target Name="TrimBuildOutput" AfterTargets="Build">
+    <ItemGroup>
+      <ExtraFilesToDelete Include="$(OutputPath)*" Exclude="$(OutputPath)$(AssemblyName).dll" />
+    </ItemGroup>
+    <Delete Files="@(ExtraFilesToDelete)" />
+  </Target>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\BepInEx\core\0Harmony.dll</HintPath>
+      <HintPath>..\Required\BepInEx\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\Required\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\BepInEx\core\BepInEx.dll</HintPath>
+      <HintPath>..\Required\BepInEx\BepInEx.dll</HintPath>
     </Reference>
     <Reference Include="Photon3Unity3D, Version=4.1.8.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\Photon3Unity3D.dll</HintPath>
+      <HintPath>..\Required\Managed\Photon3Unity3D.dll</HintPath>
     </Reference>
     <Reference Include="PhotonChat">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\PhotonChat.dll</HintPath>
+      <HintPath>..\Required\Managed\PhotonChat.dll</HintPath>
     </Reference>
     <Reference Include="PhotonRealtime, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\PhotonRealtime.dll</HintPath>
+      <HintPath>..\Required\Managed\PhotonRealtime.dll</HintPath>
     </Reference>
     <Reference Include="PhotonUnityNetworking, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\PhotonUnityNetworking.dll</HintPath>
+      <HintPath>..\Required\Managed\PhotonUnityNetworking.dll</HintPath>
     </Reference>
     <Reference Include="PhotonUnityNetworking.Utilities, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\PhotonUnityNetworking.Utilities.dll</HintPath>
+      <HintPath>..\Required\Managed\PhotonUnityNetworking.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="PhotonVoice, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\PhotonVoice.dll</HintPath>
+      <HintPath>..\Required\Managed\PhotonVoice.dll</HintPath>
     </Reference>
     <Reference Include="PhotonVoice.API, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\PhotonVoice.API.dll</HintPath>
+      <HintPath>..\Required\Managed\PhotonVoice.API.dll</HintPath>
     </Reference>
     <Reference Include="PhotonVoice.PUN, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\PhotonVoice.PUN.dll</HintPath>
+      <HintPath>..\Required\Managed\PhotonVoice.PUN.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -85,317 +90,317 @@
     <Reference Include="System.Xml" />
     <Reference Include="Unity.AI.Navigation, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\Unity.AI.Navigation.dll</HintPath>
+      <HintPath>..\Required\Managed\Unity.AI.Navigation.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Formats.Fbx.Runtime">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\Unity.Formats.Fbx.Runtime.dll</HintPath>
+      <HintPath>..\Required\Managed\Unity.Formats.Fbx.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InputSystem, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\Unity.InputSystem.dll</HintPath>
+      <HintPath>..\Required\Managed\Unity.InputSystem.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InputSystem.ForUI">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\Unity.InputSystem.ForUI.dll</HintPath>
+      <HintPath>..\Required\Managed\Unity.InputSystem.ForUI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Postprocessing.Runtime, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\Unity.Postprocessing.Runtime.dll</HintPath>
+      <HintPath>..\Required\Managed\Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Runtime">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+      <HintPath>..\Required\Managed\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
+      <HintPath>..\Required\Managed\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
+      <HintPath>..\Required\Managed\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+      <HintPath>..\Required\Managed\Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\Unity.Timeline.dll</HintPath>
+      <HintPath>..\Required\Managed\Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
+      <HintPath>..\Required\Managed\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\Unity.VisualScripting.Core.dll</HintPath>
+      <HintPath>..\Required\Managed\Unity.VisualScripting.Core.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Flow">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\Unity.VisualScripting.Flow.dll</HintPath>
+      <HintPath>..\Required\Managed\Unity.VisualScripting.Flow.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.State">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\Unity.VisualScripting.State.dll</HintPath>
+      <HintPath>..\Required\Managed\Unity.VisualScripting.State.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AccessibilityModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.AccessibilityModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.AccessibilityModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.AIModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.AIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AndroidJNIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.AndroidJNIModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.AndroidJNIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AnimationModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ARModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.ARModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.ARModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AssetBundleModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.AudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ClothModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.ClothModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.ClothModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ClusterInputModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.ClusterInputModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.ClusterInputModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ClusterRendererModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.ClusterRendererModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.ClusterRendererModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ContentLoadModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.ContentLoadModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.ContentLoadModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CrashReportingModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.CrashReportingModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.CrashReportingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.DirectorModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.DirectorModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.DirectorModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.DSPGraphModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.DSPGraphModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.DSPGraphModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.GameCenterModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.GameCenterModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.GameCenterModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.GIModule">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.GIModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.GIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.GridModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.GridModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.GridModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.HotReloadModule">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.HotReloadModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.HotReloadModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.InputModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.InputModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.LocalizationModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.LocalizationModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.LocalizationModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.NVIDIAModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.NVIDIAModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.NVIDIAModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ParticleSystemModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PerformanceReportingModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.PerformanceReportingModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.PerformanceReportingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Physics2DModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.Physics2DModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.Physics2DModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ProfilerModule">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.ProfilerModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.ProfilerModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PropertiesModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.PropertiesModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.PropertiesModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ScreenCaptureModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.ScreenCaptureModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.ScreenCaptureModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SharedInternalsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.SharedInternalsModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.SharedInternalsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SpriteMaskModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.SpriteMaskModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.SpriteMaskModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SpriteShapeModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.SpriteShapeModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.SpriteShapeModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.StreamingModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.StreamingModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.StreamingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SubstanceModule">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.SubstanceModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.SubstanceModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SubsystemsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.SubsystemsModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.SubsystemsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TerrainModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.TerrainModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.TerrainModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TerrainPhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.TerrainPhysicsModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.TerrainPhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextCoreFontEngineModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextCoreTextEngineModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TilemapModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.TilemapModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.TilemapModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TLSModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.TLSModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.TLSModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIElementsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.UIElementsModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.UIElementsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.UIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UmbraModule">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.UmbraModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.UmbraModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityAnalyticsCommonModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.UnityAnalyticsCommonModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.UnityAnalyticsCommonModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityAnalyticsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.UnityAnalyticsModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.UnityAnalyticsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityConnectModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.UnityConnectModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.UnityConnectModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityCurlModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.UnityCurlModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.UnityCurlModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityTestProtocolModule">
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.UnityTestProtocolModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.UnityTestProtocolModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestAudioModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestTextureModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestWWWModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VehiclesModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.VehiclesModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.VehiclesModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VFXModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.VFXModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.VFXModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VideoModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.VideoModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.VideoModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VirtualTexturingModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.VirtualTexturingModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.VirtualTexturingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VRModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.VRModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.VRModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.WindModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.WindModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.WindModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.XRModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\SteamLibrary\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.XRModule.dll</HintPath>
+      <HintPath>..\Required\Managed\UnityEngine.XRModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -405,6 +410,7 @@
     <Compile Include="Engine\Display.cs" />
     <Compile Include="Engine\GeneralPerp.cs" />
     <Compile Include="Engine\SemiUiPatch.cs" />
+    <Compile Include="Engine\SinglePlayerModded\Enablechat.cs" />
     <Compile Include="Engine\UpdateList.cs" />
     <Compile Include="Lib\Host.cs" />
     <Compile Include="Plugin.cs" />

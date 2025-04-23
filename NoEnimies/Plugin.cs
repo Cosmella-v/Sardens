@@ -11,16 +11,16 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using static RunManager;
 
-namespace KillthemAll
+namespace FishSardens
 {
 
     [BepInPlugin(modGUID, modName, modVersion)]
     public class Plugin : BaseUnityPlugin
     {
         public static List<PlayerAvatar> Hiders = new List<PlayerAvatar>();
-        public const string modGUID = "viper.NoMonsters";
-        public const string modName = "No Monsters";
-        public const string modVersion = "1.0.0";
+        public const string modGUID = "viper.Sardens";
+        public const string modName = "Sardens";
+        public const string modVersion = "1.0.1";
 
         private readonly Harmony harmony = new Harmony(modGUID);
 
@@ -29,7 +29,7 @@ namespace KillthemAll
 
         public static void updateListMaps()
         {
-            SemiFunc.PlayerAvatarLocal().GetComponent<KillthemAll.Clients>().SendList();
+            SemiFunc.PlayerAvatarLocal().GetComponent<FishSardens.Clients>().SendList();
             foreach (PlayerAvatar playerAvatar in GameDirector.instance.PlayerList)
             {
                 StatsManager.instance.playerUpgradeMapPlayerCount[SemiFunc.PlayerGetSteamID(playerAvatar)] = Hiders.Count;
@@ -44,47 +44,30 @@ namespace KillthemAll
             harmony.PatchAll();
         }
 
-        static bool Checksomeahhrayforcastingjustincasesomeonecalledjujucompains_about_gettingHitthroughthewall(PlayerAvatarCollision __instance, Collider hit)
-        {
-
-            Vector3 direction = (hit.transform.position - __instance.transform.position).normalized;
-            float distance = Vector3.Distance(__instance.transform.position, hit.transform.position);
-            if (Physics.Raycast(__instance.transform.position, direction, out RaycastHit rayHit, distance))
-                {
-                return (rayHit.collider == hit);
-                }
-            return false;
-        }
-
         [HarmonyPatch(typeof(PlayerAvatarCollision))]
         [HarmonyPatch("Update", MethodType.Normal)]
         public static class PlayerAvatarCollision_Update_Patch
         {
             public static bool Prefix(PlayerAvatarCollision __instance)
             {
-                if (!NoEnimies.Lib.Dependant.IsHost()) return true;
-                if (__instance.Collider != null && KillthemAll.Plugin.Hiders.Contains(__instance.PlayerAvatar))
+                if (!Sardens.Lib.Dependant.IsHost()) return true;
+                if (__instance.Collider != null && FishSardens.Plugin.Hiders.Contains(__instance.PlayerAvatar))
                 {
-                    Collider[] hitColliders = Physics.OverlapSphere(__instance.transform.position, 1.3f);
+                    Collider[] hitColliders = Physics.OverlapSphere(__instance.transform.position, 0.3f);
 
                     foreach (Collider hitCollider in hitColliders)
                     {
-                        if (!Checksomeahhrayforcastingjustincasesomeonecalledjujucompains_about_gettingHitthroughthewall(__instance, hitCollider)) { return true; };
+                       
                         var Col = hitCollider.gameObject.transform.parent.gameObject.GetComponent<PlayerAvatarCollision>();
                         if (Col) {
-                            if (!KillthemAll.Plugin.Hiders.Contains(Col.PlayerAvatar))
+                            if (!FishSardens.Plugin.Hiders.Contains(Col.PlayerAvatar))
                             {
-                                KillthemAll.Plugin.Hiders.Add(Col.PlayerAvatar);
-                                KillthemAll.Plugin.updateListMaps();
+                                FishSardens.Plugin.Hiders.Add(Col.PlayerAvatar);
+                                FishSardens.Plugin.updateListMaps();
                                 break;
                             }
                         }
                     }
-                } else
-                {
-                    // if they are seeking a player lol
-                    if  (KillthemAll.Plugin.Hiders.Count < 1) { return true; };
-                    __instance.PlayerAvatar.playerHealth.EyeMaterialOverride(PlayerHealth.EyeOverrideState.Red, 0.3f, 10);
                 }
 
                 return true;
@@ -95,14 +78,14 @@ namespace KillthemAll
         {
             static void Postfix(StatsManager __instance, string _steamID, string _playerName)
             {
-                if (!NoEnimies.Lib.Dependant.IsHost()) return;
+                if (!Sardens.Lib.Dependant.IsHost()) return;
 
                 if (__instance == null || string.IsNullOrEmpty(_steamID) || PunManager.instance == null)
                 {
                     mls.LogWarning("StatsManager hook failed due to null references.");
                     return;
                 }
-                mls.LogInfo($"{modGUID} Setting Stats for {_playerName}({_steamID})!");
+               // mls.LogInfo($"{modGUID} Setting Stats for {_playerName}({_steamID})!");
                 __instance.playerUpgradeExtraJump[_steamID] = 4;
                 __instance.playerUpgradeLaunch[_steamID] = 10;
                 __instance.playerUpgradeSpeed[_steamID] = 10;
@@ -120,22 +103,33 @@ namespace KillthemAll
         {
             static void Postfix(RunManager __instance)
             {
-                if (!NoEnimies.Lib.Dependant.IsHost()) return;
+                if (!Sardens.Lib.Dependant.IsHost()) return;
+                if (FishSardens.Plugin.Hiders.Count > 0)
+                {
+                    foreach (PlayerAvatar playerAvatar in GameDirector.instance.PlayerList)
+                    {
+                        if (!FishSardens.Plugin.Hiders.Contains(playerAvatar))
+                        {
+                            playerAvatar.playerHealth.EyeMaterialOverride(PlayerHealth.EyeOverrideState.Red, 0.3f, 122);
+                        };
+                    }
+                }
+
                 if (Input.GetKeyDown(KeyCode.F4))
                 {
                     __instance.ChangeLevel(true, false, RunManager.ChangeLevelType.Normal);
-                    mls.LogInfo("F4 pressed - Level change triggered ^w^!");
+                  //  mls.LogInfo("F4 pressed - Level change triggered ^w^!");
                 }
                 if (Input.GetKeyDown(KeyCode.F5))
                 {
                     Traverse.Create(__instance).Field("previousRunLevel").SetValue(__instance.levelCurrent);
                     __instance.ChangeLevel(true, false, RunManager.ChangeLevelType.RunLevel);
-                    mls.LogInfo("F5 pressed - Level change triggered ^w^!");
+                   // mls.LogInfo("F5 pressed - Level change triggered ^w^!");
                 }
                 if (Input.GetKeyDown(KeyCode.F6))
                 {
                     __instance.ChangeLevel(true, false, RunManager.ChangeLevelType.Recording);
-                    mls.LogInfo("F6 pressed - Level change triggered ^w^!");
+                  //  mls.LogInfo("F6 pressed - Level change triggered ^w^!");
                 }
                 if (Input.GetKeyDown(KeyCode.F7))
                 {
@@ -192,7 +186,7 @@ namespace KillthemAll
             {
                     __instance.Despawn();
                // Destroy(__instance.gameObject);
-                mls.LogInfo($"{modGUID} removed a entity!");
+               // mls.LogInfo($"{modGUID} removed a entity!");
             }
         }
 
@@ -203,7 +197,7 @@ namespace KillthemAll
             {
                 //Destroy(__instance.gameObject);
                 __instance.Despawn();
-                mls.LogInfo($"{modGUID} removed a entity!");
+              //  mls.LogInfo($"{modGUID} removed a entity!");
             }
         }
 

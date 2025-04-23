@@ -8,7 +8,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace NoEnimies.Lib
+namespace Sardens.Lib
 {
     internal class Dependant
     {

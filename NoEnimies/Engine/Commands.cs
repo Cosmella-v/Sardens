@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using KillthemAll;
+using FishSardens;
 using Photon.Pun;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using UnityEngine;
 using static UnityEngine.InputSystem.InputRemoting;
 using static UnityEngine.Rendering.PostProcessing.PostProcessResources;
 
-namespace NoEnimies.Engine
+namespace Sardens.Engine
 {
     internal class CommandBuilder
     {
@@ -107,8 +107,8 @@ namespace NoEnimies.Engine
 
         private static bool NoHider(string[] args)
         {
-            KillthemAll.Plugin.Hiders.Clear();
-            KillthemAll.Plugin.updateListMaps();
+            FishSardens.Plugin.Hiders.Clear();
+            FishSardens.Plugin.updateListMaps();
             return true;
         }
         private static bool Hider(string[] args)
@@ -119,7 +119,7 @@ namespace NoEnimies.Engine
                 int closestDistance = 1000000;
                 int closeslet = 0;
                 PlayerAvatar closestPlayer = GameDirector.instance.PlayerList[0];
-                if (KillthemAll.Plugin.Hiders.Count > 0) { KillthemAll.Plugin.Hiders.Clear(); }
+                if (FishSardens.Plugin.Hiders.Count > 0) { FishSardens.Plugin.Hiders.Clear(); }
                 if (GameDirector.instance == null)
                 {
                     return false;
@@ -129,7 +129,7 @@ namespace NoEnimies.Engine
                     string Nam = SemiFunc.PlayerGetName(playerAvatar).ToLower();
                     int dise = CountMatchingPrefix(Nam, person.ToLower());
                     int distance = LevenshteinDistance(Nam, person.ToLower());
-                    //KillthemAll.Plugin.mls.LogInfo(dise+"dis: "+distance);
+                    //FishSardens.Plugin.mls.LogInfo(dise+"dis: "+distance);
                     if ((closeslet < dise) || ((closeslet == dise) && (distance < closestDistance)))
                     {
                         closestDistance = distance;
@@ -139,9 +139,9 @@ namespace NoEnimies.Engine
                 }
                 if (closestPlayer)
                 {
-                    KillthemAll.Plugin.Hiders.Add(closestPlayer);
-                    // KillthemAll.Plugin.mls.LogInfo($"Setting Hider to {SemiFunc.PlayerGetName(closestPlayer)}!");
-                    KillthemAll.Plugin.updateListMaps();
+                    FishSardens.Plugin.Hiders.Add(closestPlayer);
+                    // FishSardens.Plugin.mls.LogInfo($"Setting Hider to {SemiFunc.PlayerGetName(closestPlayer)}!");
+                    FishSardens.Plugin.updateListMaps();
                 }
                 else
                 {
@@ -150,7 +150,7 @@ namespace NoEnimies.Engine
             }
             catch (Exception e)
             {
-                KillthemAll.Plugin.mls.LogError(e.Message);
+                FishSardens.Plugin.mls.LogError(e.Message);
             };
             return true;
         }

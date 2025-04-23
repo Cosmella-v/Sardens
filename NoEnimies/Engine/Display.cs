@@ -9,8 +9,9 @@ using Photon.Pun;
 using ExitGames.Client.Photon;
 using System.Collections;
 using Unity.VisualScripting;
+using System.Reflection;
 
-namespace NoEnimies.Engine
+namespace Sardens.Engine
 {
     internal class Display
     {
@@ -32,22 +33,39 @@ namespace NoEnimies.Engine
             [HarmonyPostfix]
             public static void PlayerAvatarAwake(PlayerAvatar __instance)
             {
-                var killtheallplease = __instance.AddComponent<KillthemAll.Clients>();
+                var killtheallplease = __instance.AddComponent<FishSardens.Clients>();
                 // this syncs when a player joins to help stop desync when joining midmatch
                 if (__instance.photonView.IsMine)
                 {
-                    KillthemAll.Plugin.mls.LogMessage("I should sync now lol");
+                    //FishSardens.Plugin.mls.LogMessage("I should sync now lol");
                     killtheallplease.PleaseSyncMeWithTheHost();
                 }
 
                 }
-            [HarmonyPatch(typeof(PlayerAvatar))]
-            [HarmonyPatch("ChatMessageSend")]
+            [HarmonyPatch(typeof(ChatManager))]
+            [HarmonyPatch("MessageSend")]
             [HarmonyPrefix]
-            public static bool Hostcommands(PlayerAvatar __instance, string _message, bool _debugMessage)
+            public static bool Hostcommands(ChatManager __instance, bool _possessed)
             {
-                if (_debugMessage) return true; // dunno why you would try sending a command as a test message????
-                return CommandBuilder.process_Commands(_message, __instance.photonView.IsMine); // crazy one liner
+                if (_possessed) { return true; };
+               
+                var typeofFast = typeof(ChatManager);
+                var chatMessageField = typeofFast.GetField("chatMessage", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                string message = chatMessageField.GetValue(__instance) as string;
+                if (string.IsNullOrEmpty(message))
+                {
+                    return true;
+                }
+                if (CommandBuilder.process_Commands(message, true)) { return true; }
+                chatMessageField.SetValue(__instance, "");
+                typeofFast.GetField("spamTimer", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).SetValue(__instance, 1f);
+                ChatUI.instance.SemiUITextFlashColor(Color.magenta, 0.4f);
+                ChatUI.instance.SemiUISpringShakeX(10f, 10f, 0.3f);
+                ChatUI.instance.SemiUISpringScale(0.05f, 5f, 0.2f);
+                MenuManager.instance.MenuEffectClick(MenuManager.MenuClickEffectType.Confirm, null, 1f, 1f, true);
+                typeofFast.GetField("chatActive", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).SetValue(__instance, false);
+                return false;
+
             }
 
 

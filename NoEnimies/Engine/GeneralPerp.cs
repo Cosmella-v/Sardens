@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputRemoting;
 
 
-namespace NoEnimies.Engine
+namespace Sardens.Engine
 {
         
         [HarmonyPatch(typeof(ChatManager))]

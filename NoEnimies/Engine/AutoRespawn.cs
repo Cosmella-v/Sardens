@@ -7,7 +7,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace NoEnimies.respawn
+namespace Sardens.respawn
 {
     internal class God
     {
@@ -17,7 +17,7 @@ namespace NoEnimies.respawn
             head.playerAvatar.Revive(false);
         }
         [HarmonyPatch(typeof(PlayerDeathHead))]
-        [HarmonyPatch("SetupDone")]
+        [HarmonyPatch("Update")]
         [HarmonyPostfix]
         static public void godmod(PlayerDeathHead __instance)
         {

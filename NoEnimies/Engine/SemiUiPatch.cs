@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 
-namespace NoEnimies.Lib
+namespace Sardens.Lib
 {
     internal class SemiUiPatch
     {
